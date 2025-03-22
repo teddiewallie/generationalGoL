@@ -53,15 +53,15 @@ const newCanvas = () => {
 
   canvas.addEventListener('click', (e) => {
     canvasClickEvent(
-      Math.floor(e.clientX / g.props.size),
-      Math.floor(e.clientY / g.props.size)
+      Math.ceil(e.clientX / g.props.size) - 1,
+      Math.ceil(e.clientY / g.props.size) - 5
     );
   }, false);
 
   return canvas;
 };
 
-const newGrid = () => {
+const newGrid = () => {0
   const grid = new Array();
 
   for (let row = 0; row < g.props.rows; row++) {
