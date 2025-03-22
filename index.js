@@ -2,10 +2,10 @@ g = {
   grid: null,
   canvas: null,
   interval: null,
-  ms: 40,
+  ms: 100,
   pixel: {
-    old: 1,
-    dead: 3
+    old: 2,
+    dead: 4
   },
   colors: {
     alive: '#000',
@@ -13,9 +13,9 @@ g = {
     old: '#f00'
   },
   props: {
-    size: 6,
-    rows: 150,
-    cols: 100
+    size: 10,
+    rows: 90,
+    cols: 60
   }
 };
 
@@ -26,10 +26,15 @@ window.onload = () => {
   refreshCanvas();
 
   document.body.appendChild(canvas);
-  document.body.appendChild(newNextButton());
-  document.body.appendChild(newPlayPauseButton());
-  document.body.appendChild(newRandomButton());
+
+  const buttonRow = document.createElement('div');
+  document.body.appendChild(buttonRow);
+  buttonRow.appendChild(newNextButton());
+  buttonRow.appendChild(newPlayPauseButton());
+  buttonRow.appendChild(newRandomButton());
   
+  buttonRow.appendChild(newOldInput());
+  buttonRow.appendChild(newDeadInput());
 };
 
 const canvasClickEvent = (row, col) => {
@@ -101,9 +106,37 @@ const refreshCanvas = () => {
   }
 };
 
+const newOldInput = () => {
+  const span = document.createElement('span');
+  span.innerText = 'Old: ';
+  const input = document.createElement('input');
+  input.value = g.pixel.old;
+  input.addEventListener('change', () => {
+    if (typeof Number(input.value) === 'number') {
+      g.pixel.old = Number(input.value);
+    }
+  }, false);
+  span.appendChild(input);
+  return span;
+};
+
+const newDeadInput = () => {
+  const span = document.createElement('span');
+  span.innerText = 'Dead: ';
+  const input = document.createElement('input');
+  input.value = g.pixel.dead;
+  input.addEventListener('change', () => {
+    if (typeof Number(input.value) === 'number') {
+      g.pixel.dead = Number(input.value);
+    }
+  });
+  span.appendChild(input);
+  return span;
+};
+
 const newNextButton = () => {
   const button = document.createElement('button');
-  button.innerText = '>>';
+  button.innerText = '⏭';
   button.addEventListener('click', () => {
     nextFrame();
   }, false);
@@ -112,7 +145,7 @@ const newNextButton = () => {
 
 const newPlayPauseButton = () => {
   const button = document.createElement('button');
-  button.innerText = '>||';
+  button.innerText = '⏯';
   button.addEventListener('click', () => {
     if (g.interval === null) {
       g.interval = setInterval(nextFrame, g.ms);
