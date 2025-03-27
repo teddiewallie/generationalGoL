@@ -25,7 +25,7 @@ window.onload = () => {
   g.canvas = newCanvas();
   refreshCanvas();
 
-  document.body.appendChild(canvas);
+  document.body.appendChild(g.canvas);
 
   const buttonRow = document.createElement('div');
   document.body.appendChild(buttonRow);
